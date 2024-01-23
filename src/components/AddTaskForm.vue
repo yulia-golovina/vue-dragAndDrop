@@ -19,7 +19,6 @@ defineProps<{
 .task-form {
     display: flex;
     width: 500px;
-    margin-bottom: 40px;
     border: var(--default-border);
     border-radius: var(--default-border-radius);
 
