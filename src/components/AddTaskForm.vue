@@ -1,18 +1,27 @@
 <template>
     <InputGroup class="task-form">
-        <InputText class="task-form__input" :placeholder="placeholder" />
-        <Button class="task-form__button" icon="pi pi-plus"/>
+        <InputText class="task-form__input" :placeholder="placeholder" type="text" v-model="newTask"/>
+        <Button class="task-form__button" icon="pi pi-plus" @click="addNewTask"/>
     </InputGroup>
 </template>
 
 <script setup lang="ts">
+import { useTasksStore } from '@/stores/tasks';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import InputGroup from 'primevue/inputgroup';
+import { ref } from 'vue';
 
 defineProps<{
     placeholder?: string,
 }>();
+
+const { addTask } = useTasksStore();
+const newTask = ref();
+
+function addNewTask() {
+    addTask(newTask.value);
+}
 </script>
 
 <style lang="scss" scoped>
