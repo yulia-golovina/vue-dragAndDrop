@@ -5,7 +5,7 @@
       class="task-list__list"
       v-model="tasksList"
       :group="group"
-      chosenClass='--choosen'
+      chosenClass='--chosen'
       filter=".--lockedTask"
       :animation=150
       @update="onUpdate"
@@ -73,7 +73,7 @@ function remove() {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        & .--choosen {
+        & .--chosen {
         opacity: 0.5;
         background: #c8ebfb;
       }

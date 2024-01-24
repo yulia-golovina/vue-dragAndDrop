@@ -8,7 +8,7 @@
                     :class="['task-card__content-button', {'--locked': isLocked}]"
                     icon="pi pi-lock"
                     text
-                    @click="onLock"
+                    @click.stop="onLock"
                  />
             </div>
         </template>        
@@ -32,7 +32,7 @@ const props = defineProps<{
 const isLocked = ref(false);
 const { lockTask } = useTasksStore();
 
-const onLock = () => {
+function onLock() {
     isLocked.value = !isLocked.value;
     lockTask(props.taskId);
 }
