@@ -1,14 +1,13 @@
 <template>
-    <Card class="task-card">
+    <Card :class="['task-card', {'--lockedTask': isLocked}]">
         <template #content>
             <div class="task-card__content">
                 <span>{{ text }}</span>
                 <Button 
+                    v-if="!isDone"
                     :class="['task-card__content-button', {'--locked': isLocked}]"
                     icon="pi pi-lock"
-                    :iconClass="iconClass"
-                    text 
-                    rounded
+                    text
                     @click="onLock"
                  />
             </div>
@@ -17,28 +16,31 @@
 </template>
 
 <script setup lang="ts">
+import { useTasksStore } from '@/stores/tasks';
+import { ref } from 'vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
-import { computed, ref } from 'vue';
 
-defineProps<{
+
+
+const props = defineProps<{
     text: string,
+    taskId: number,
+    isDone?: boolean,
 }>();
 
 const isLocked = ref(false);
-
-const iconClass = computed( () => {
-    return isLocked.value ? "button__icon" : '';
-});
+const { lockTask } = useTasksStore();
 
 const onLock = () => {
     isLocked.value = !isLocked.value;
+    lockTask(props.taskId);
 }
 </script>
 
 <style lang="scss" scoped>
 .task-card {
-    padding: 0 var(--padding-10);
+    padding: var(--padding-10);
     &:hover, :focus {
         background: var(--color-grey);
     }
@@ -64,27 +66,27 @@ const onLock = () => {
         }
             }
        &:active, :hover {
-        background: none;
+            background: none;
        }
        &:focus, :focus-visible {
-        outline: none;
-        background: none;
-        border: none;
-        box-shadow: none;
+            outline: none;
+            background: none;
+            border: none;
+            box-shadow: none;
        }
     }
-}
-
-.task-card:hover {
-    & .p-button {
-         & .pi {
+    &:hover .p-button {
+        & .pi {
             color: var(--color-white);
         }
-        &.--locked .pi{
-            color:  var(--color-black);
-        }
         &:hover {
-            background: var(--color-white-dark);
+            background: none;
+            & .pi, &.--locked .pi {
+                color: var(--color-grey-dark-2);
+            }
+        }
+        &.--locked .pi {
+            color:  var(--color-black);
         }
     }
 }

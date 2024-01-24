@@ -1,22 +1,26 @@
 <template>
-  <VueDraggable
-      class="flex flex-col gap-2 p-4 w-300px h-300px m-auto bg-gray-500/5 rounded overflow-auto"
-      v-model="listToDo"
+  <div class="task-list">
+    <span class="task-list__title">{{ title }}</span>
+    <VueDraggable
+      class="task-list__list"
+      v-model="tasksList"
+      :group="group"
+      chosenClass='--choosen'
+      filter=".--lockedTask"
       :animation=150
-      ghostClass="ghost"
-      group="people"
       @update="onUpdate"
       @add="onAdd"
       @remove="remove"
     >
       <TaskCard
-        v-for="item in listToDo"
+        v-for="item in tasksList"
         :key="item.id"
-        class="cursor-move h-30 bg-gray-500/5 rounded p-3"
+        :taskId="item.id"
         :text="item.text"
-      >
-      </TaskCard>
+        :isDone="item.isDone"
+      />
     </VueDraggable>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,19 +28,56 @@ import { ref } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
 import TaskCard from './TaskCard.vue';
 
+type TaskType = { 
+  id: number,
+  text: string,
+  isDone?: boolean,
+};
+
 const props = defineProps<{
-  list: Array<{id: number, text: string}>;
+  list: Array<TaskType>,
+  title: string,
+  group: string,
 }>();
 
-const listToDo = ref(props.list);
+const tasksList = ref(props.list);
 
 function onUpdate() {
   console.log('update')
 }
 function onAdd() {
+  console.log(props.list);
   console.log('add')
 }
 function remove() {
+  console.log(props.list);
   console.log('remove')
 }
 </script>
+
+<style lang="scss" scoped>
+    .task-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: var(--padding-10);
+      border: var(--default-border);
+      border-radius: var(--default-border-radius);
+      &__title {
+        display: block;
+        font-size: larger;
+        font-weight: bold;
+      }
+      &__list {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        & .--choosen {
+        opacity: 0.5;
+        background: #c8ebfb;
+      }
+      }
+    }
+
+</style>
