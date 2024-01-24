@@ -40,10 +40,12 @@
   --section-gap: 160px;
 
   --color-black: var(--vt-c-black);
+  --color-black-mute: var(--vt-c-black-mute);
   --color-white: var(--vt-c-white);
   --color-white-dark: var(--vt-c-white-dark);
   --color-grey: var(--vt-c-grey);
   --color-grey-dark: var(--vt-c-grey-dark-1);
+  --color-grey-dark-2: var(--vt-c-text-light-2);
 
   --padding-10: 10px;
   --default-border: 1px solid var(--color-grey);

@@ -23,13 +23,11 @@ defineProps<{
     border-radius: var(--default-border-radius);
 
     &__button {
-        border: none;
         background-color: var(--color-grey);
         display: flex;
         align-items: center;
         border-left: var(--default-border);
         border-radius: var(--default-border-radius);
-
         &-icon {
             width: 20px;
             height: 20px;
@@ -38,7 +36,7 @@ defineProps<{
             box-shadow: none; 
         }
         &:hover {
-            background-color: var(--color-grey-dark)
+            background-color: var(--color-grey-dark);
         }
     }
     

@@ -1,30 +1,32 @@
 export const listToDo = [
     {
+      id: 1,
       text: 'пресс качат',
-      id: 1
     },
     {
+      id: 2,
       text: 'бегит',
-      id: 2
     },
     {
+      id: 3,
       text: 'анжуманя',
-      id: 3
     },
     {
+      id: 4,
       text: 'турник',
-      id: 4
     }
   ];
 
   export const listDone = [
     {
+      id: 11,
       text: 'смотреть видосики',
-      id: 1
+      isDone: true,
     },
     {
-      text: 'прокрастинироваться',
-      id: 2
+      id: 12,
+      text: 'писать подспичичникам',
+      isDone: true,
     }
   ];
 
