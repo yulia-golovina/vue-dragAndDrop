@@ -1,6 +1,6 @@
 <template>
     <InputGroup class="task-form">
-        <InputText class="task-form__input" :placeholder="placeholder" type="text" v-model="newTask"/>
+        <InputText class="task-form__input" :placeholder="placeholder" type="text" v-model.trim="newTask"/>
         <Button class="task-form__button" icon="pi pi-plus" @click="addNewTask"/>
     </InputGroup>
 </template>
@@ -19,8 +19,17 @@ defineProps<{
 const { addTask } = useTasksStore();
 const newTask = ref();
 
+function isVolidText(text: string) {
+  const regexText = /^[a-zA-Z0-9]+$/;
+  return regexText.test(text);
+}
+
 function addNewTask() {
-    addTask(newTask.value);
+    if(isVolidText(newTask.value)) {
+        addTask(newTask.value);
+    } else {
+        console.log('Task is not valid');
+    }
 }
 </script>
 
