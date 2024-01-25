@@ -16,7 +16,6 @@ import TasksList from './TasksList.vue';
 import ButtonMoveToDone from './ButtonMoveToDone.vue';
 
 const { toDoTasksList, doneTasksList } = useTasksStore();
-
 </script>
   
 <style lang="scss" scoped>

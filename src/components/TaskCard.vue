@@ -2,11 +2,11 @@
     <Card :class="['task-card', {'--lockedTask': isLocked}]">
         <template #content>
             <div class="task-card__content">
-                <span>{{ text }}</span>
+                <span>{{ task.text }}</span>
                 <Button 
-                    v-if="!isDone"
-                    :class="['task-card__content-button', {'--locked': isLocked}]"
-                    icon="pi pi-lock"
+                    v-if="!task.isDone"
+                    :class="['task-card__content-button', {'--locked': task.isLocked}]"
+                    :icon="task.isLocked? 'pi pi-lock': 'pi pi-lock-open'"
                     text
                     @click.stop="onLock"
                  />
@@ -17,24 +17,21 @@
 
 <script setup lang="ts">
 import { useTasksStore } from '@/stores/tasks';
+import { type TaskType } from '../mock/mockData';
 import { ref } from 'vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 
-
-
 const props = defineProps<{
-    text: string,
-    taskId: number,
-    isDone?: boolean,
+    task: TaskType,
 }>();
 
 const isLocked = ref(false);
 const { lockTask } = useTasksStore();
 
-function onLock() {
+const onLock = () => {
     isLocked.value = !isLocked.value;
-    lockTask(props.taskId);
+    lockTask(props.task.id);
 }
 </script>
 

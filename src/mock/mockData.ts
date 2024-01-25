@@ -2,22 +2,26 @@ export const listToDo = [
     {
       id: 1,
       text: 'пресс качат',
+      isDone: false,
     },
     {
       id: 2,
       text: 'бегит',
+      isDone: false,
     },
     {
       id: 3,
       text: 'анжуманя',
+      isDone: false,
     },
     {
       id: 4,
       text: 'турник',
+      isDone: false,
     }
   ];
 
-  export const listDone = [
+  export const listDone: TaskType[] = [
     {
       id: 11,
       text: 'смотреть видосики',
@@ -30,5 +34,9 @@ export const listToDo = [
     }
   ];
 
-  
-  export type ListType = typeof listToDo;
+  export type TaskType = { 
+    id: number,
+    text: string,
+    isDone: boolean,
+    isLocked?: boolean,
+  };

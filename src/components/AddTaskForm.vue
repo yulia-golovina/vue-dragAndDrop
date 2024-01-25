@@ -29,13 +29,13 @@ const isVolid = ref(true);
 const { addTask } = useTasksStore();
 const newTask = ref();
 
-function isVolidText(text: string) {
+const isVolidText = (text: string) => {
   const regexText = /^[a-zA-Z0-9]+$/;
   if(!text) return false;
   return regexText.test(text);
 }
 
-function addNewTask() {
+const addNewTask = () => {
     if(isVolidText(newTask.value)) {
         isVolid.value = true;
         addTask(newTask.value);

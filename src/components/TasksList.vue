@@ -15,9 +15,8 @@
       <TaskCard
         v-for="item in tasksList"
         :key="item.id"
-        :taskId="item.id"
-        :text="item.text"
-        :isDone="item.isDone"
+        :id="item.id"
+        :task="item"
       />
     </VueDraggable>
   </div>
@@ -25,14 +24,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { VueDraggable } from 'vue-draggable-plus';
+import { type TaskType } from '../mock/mockData';
+import { VueDraggable, type UseDraggableOptions } from 'vue-draggable-plus';
 import TaskCard from './TaskCard.vue';
-
-type TaskType = { 
-  id: number,
-  text: string,
-  isDone?: boolean,
-};
 
 const props = defineProps<{
   list: Array<TaskType>,
@@ -42,16 +36,16 @@ const props = defineProps<{
 
 const tasksList = ref(props.list);
 
-function onUpdate() {
-  console.log('update')
+const onUpdate = () => {
+  console.log('update');
 }
-function onAdd() {
-  console.log(props.list);
-  console.log('add')
+const onAdd: UseDraggableOptions<any>['onAdd'] = (event) => {
+  const draggableTask = tasksList.value.find((item)=> item.id === Number(event.item.id));
+  if(draggableTask) draggableTask.isDone = !draggableTask.isDone;
+  console.log('add', draggableTask, props.list);
 }
-function remove() {
-  console.log(props.list);
-  console.log('remove')
+const remove = () => {
+  console.log('remove');
 }
 </script>
 
