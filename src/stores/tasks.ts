@@ -23,20 +23,22 @@ export const useTasksStore = defineStore('tasks', () => {
   function lockTask(taskId: number) {
     const currentTask = toDoTasksList.value.find((task) => task.id === taskId);
     currentTask!.isLoked = !currentTask!.isLoked;
-    console.log(toDoTasksList);
   }
 
   function moveToDone() {
     const lokedTasks: TaskType[] = [];
+    const toDone: TaskType[] = [];
     toDoTasksList.value.forEach((item) => {
       if(item.isLoked) {
           lokedTasks.push(item);
       } else {
         item.isDone = true;
-        doneTasksList.value.push(item);
+        toDone.push(item);
       }
     });
-    toDoTasksList.value = lokedTasks.length ? lokedTasks : [];
+    toDoTasksList.value.length = 0;
+    toDoTasksList.value.push(...lokedTasks);
+    doneTasksList.value.push(...toDone);
   }
 
   return { toDoTasksList, doneTasksList, addTask, lockTask, moveToDone };
