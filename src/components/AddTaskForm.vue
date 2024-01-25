@@ -1,8 +1,17 @@
 <template>
-    <InputGroup class="task-form">
-        <InputText class="task-form__input" :placeholder="placeholder" type="text" v-model.trim="newTask"/>
-        <Button class="task-form__button" icon="pi pi-plus" @click="addNewTask"/>
-    </InputGroup>
+    <div>
+        <InputGroup class="task-form">
+            <InputText id="task" class="task-form__input" :placeholder="placeholder" type="text" v-model.trim="newTask"/>
+            <Button class="task-form__button" icon="pi pi-plus" @click="addNewTask"/>
+        </InputGroup>
+        <small
+            v-if="!isVolid"
+            id="task-help"
+            class="task-form__message"
+        >
+            Your task is not volid.
+        </small>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -16,18 +25,22 @@ defineProps<{
     placeholder?: string,
 }>();
 
+const isVolid = ref(true);
 const { addTask } = useTasksStore();
 const newTask = ref();
 
 function isVolidText(text: string) {
   const regexText = /^[a-zA-Z0-9]+$/;
+  if(!text) return false;
   return regexText.test(text);
 }
 
 function addNewTask() {
     if(isVolidText(newTask.value)) {
+        isVolid.value = true;
         addTask(newTask.value);
     } else {
+        isVolid.value = false;
         console.log('Task is not valid');
     }
 }
@@ -45,7 +58,6 @@ function addNewTask() {
         display: flex;
         align-items: center;
         border-left: var(--default-border);
-        border-radius: var(--default-border-radius);
         &-icon {
             width: 20px;
             height: 20px;
@@ -61,7 +73,7 @@ function addNewTask() {
     &__input {
         padding: var(--padding-10);
         width: 100%;
-        border-radius: var(--default-border-radius);
+        border-radius: var(--default-border-radius) 0 0 var(--default-border-radius);
         &::placeholder {
             padding: 5px;
         }
@@ -69,6 +81,9 @@ function addNewTask() {
             box-shadow: none;
             
         }
+    }
+    &__message {
+        color: var(--color-red);
     }
 }
 </style>
