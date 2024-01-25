@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { type TaskType } from '../mock/mockData';
 import { VueDraggable, type UseDraggableOptions } from 'vue-draggable-plus';
 import TaskCard from './TaskCard.vue';
@@ -35,6 +35,10 @@ const props = defineProps<{
 }>();
 
 const tasksList = ref(props.list);
+
+watch(() => props.list, (newValue) => {
+  tasksList.value = newValue;
+});
 
 const onUpdate = () => {
   console.log('update');

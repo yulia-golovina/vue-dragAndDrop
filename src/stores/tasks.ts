@@ -1,62 +1,52 @@
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref, watch, watchEffect } from 'vue';
 import { defineStore } from 'pinia';
-import {listToDo, listDone, type TaskType} from '../mock/mockData';
+import {listToDo, type TaskType} from '../mock/mockData';
 
 export const useTasksStore = defineStore('tasks', () => {
-  let toDoTasksList = reactive<TaskType[]>(listToDo);
-  const doneTasksList = ref<TaskType[]>(listDone);
+  const tasksList = ref<TaskType[]>(listToDo);
+
+  const toDoTasksList = computed(() => tasksList.value.filter((item) => !item.isDone));
+  const doneTasksList = computed(() => tasksList.value.filter((item) => item.isDone));
 
   function addTask(taskText: string) {
-    toDoTasksList.push({
+    tasksList.value.push({ 
       id: Date.now(),
       text: taskText,
-      isDone: false,
+      isDone: false, 
     });
+    console.log(tasksList, toDoTasksList);
   }
 
   function lockTask(taskId: number) {
-    const currentTask = toDoTasksList.find((task) => task.id === taskId);
+    const currentTask = tasksList.value.find((task) => task.id === taskId);
     currentTask!.isLocked = !currentTask!.isLocked;
   }
 
   function moveToDone() {
-    const lockedTasks: TaskType[] = [];
-    const toDone: TaskType[] = [];
-    toDoTasksList.forEach((item) => {
-      if(item.isLocked) {
-          lockedTasks.push(item);
-      } else {
-        item.isDone = true;
-        toDone.push(item);
-      }
+    tasksList.value.forEach((item) => {
+      if(!item.isLocked) item.isDone = true;
     });
-    // toDoTasksList = reactive<TaskType[]>(lockedTasks);
-    toDoTasksList.length = 0;
-    toDoTasksList.push(...lockedTasks);
-    doneTasksList.value.push(...toDone);
   }
 
   return { toDoTasksList, doneTasksList, addTask, lockTask, moveToDone };
 })
 
 // import { defineStore } from 'pinia';
-// import {listToDo, listDone, type TaskType} from '../mock/mockData';
+// import {listToDo, type TaskType} from '../mock/mockData';
 
 // export const useTasksStore = defineStore('tasks', { 
 //   state: () => ({
-//     toDoTasksList: listToDo,
-//     doneTasksList: listDone,
-//     draggbledTask: {},
+//     tasksList: listToDo,
 //   }),
 
-//   actions: {
-//     saveDraggbledTask(task:TaskType) {
-//       this.draggbledTask = task;
-//       console.log(this.draggbledTask);
-//     },
+//   getters: {
+//     toDoTasksList: (state) => state.tasksList.filter((item)=>!item.isDone),
+//     doneTasksList: (state) => state.tasksList.filter((item)=>item.isDone),
+//   },
 
+//   actions: {
 //     addTask(taskText: string) {
-//       this.toDoTasksList.push({
+//       this.tasksList.push({
 //         id: Date.now(),
 //         text: taskText,
 //         isDone: false,
@@ -65,24 +55,13 @@ export const useTasksStore = defineStore('tasks', () => {
 
 //     lockTask(taskId: number) {
 //       const currentTask = this.toDoTasksList.find((task) => task.id === taskId) as TaskType;
-//       currentTask!.islocked = !currentTask!.islocked;
+//       currentTask!.isLocked = !currentTask!.isLocked;
 //     },
 
 //     moveToDone() {
-//       const lockedTasks: TaskType[] = [];
-//       const toDone: TaskType[] = [];
 //       this.toDoTasksList.forEach((item: TaskType) => {
-//         if(item.islocked) {
-//             lockedTasks.push(item);
-//         } else {
-//           item.isDone = true;
-//           toDone.push(item);
-//         }
+//         if(!item.isLocked) item.isDone = true;
 //       });
-//       this.toDoTasksList.length = 0;
-//       this.toDoTasksList.push(...lockedTasks);
-//       // this.$patch({toDoTasksList: []})
-//       this.doneTasksList.push(...toDone);
 //     }
 //   },
 // });

@@ -18,17 +18,14 @@ export const listToDo = [
       id: 4,
       text: 'турник',
       isDone: false,
-    }
-  ];
-
-  export const listDone: TaskType[] = [
+    },
     {
-      id: 11,
+      id: 5,
       text: 'смотреть видосики',
       isDone: true,
     },
     {
-      id: 12,
+      id: 6,
       text: 'писать подспичичникам',
       isDone: true,
     }

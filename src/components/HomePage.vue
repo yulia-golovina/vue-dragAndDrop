@@ -10,12 +10,14 @@
 </template>
   
 <script setup lang="ts">
+import {storeToRefs} from 'pinia';
 import { useTasksStore } from '@/stores/tasks';
 import AddTaskForm from './AddTaskForm.vue';
 import TasksList from './TasksList.vue';
 import ButtonMoveToDone from './ButtonMoveToDone.vue';
 
-const { toDoTasksList, doneTasksList } = useTasksStore();
+const tasksStore = useTasksStore();
+const {toDoTasksList, doneTasksList} = storeToRefs(tasksStore);
 </script>
   
 <style lang="scss" scoped>
