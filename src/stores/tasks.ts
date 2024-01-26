@@ -38,6 +38,8 @@ export const useTasksStore = defineStore('tasks', () => {
   return { toDoTasksList, doneTasksList, addTask, lockTask, moveToDone };
 })
 
+// Second variant a store with one list of tasks
+
 // import { computed, reactive, ref, watch, watchEffect } from 'vue';
 // import { defineStore } from 'pinia';
 // import {listToDo, type TaskType} from '../mock/mockData';

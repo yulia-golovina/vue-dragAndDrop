@@ -1,6 +1,8 @@
 <template>
   <div class="task-list">
-    <span class="task-list__title">{{ title }}</span>
+    <span class="task-list__title">
+      {{ title }}
+    </span>
     <VueDraggable
       class="task-list__list"
       v-model="tasksList"
@@ -8,9 +10,7 @@
       chosenClass='--chosen'
       filter=".--lockedTask"
       :animation=150
-      @update="onUpdate"
       @add="onAdd"
-      @remove="remove"
     >
       <TaskCard
         v-for="item in tasksList"
@@ -40,42 +40,35 @@ watch(() => props.list, (newValue) => {
   tasksList.value = newValue;
 });
 
-const onUpdate = () => {
-  console.log('update');
-}
 const onAdd: UseDraggableOptions<any>['onAdd'] = (event) => {
   const draggableTask = tasksList.value.find((item)=> item.id === Number(event.item.id));
   if(draggableTask) draggableTask.isDone = !draggableTask.isDone;
   console.log('add');
 }
-const remove = () => {
-  console.log('remove');
-}
 </script>
 
 <style lang="scss" scoped>
-    .task-list {
-      width: 100%;
+ .task-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding-10);
+    border: var(--default-border);
+    border-radius: var(--default-border-radius);
+    &__title {
+      display: block;
+      font-size: larger;
+      font-weight: bold;
+    }
+    &__list {
+      height: 100%;
       display: flex;
       flex-direction: column;
-      padding: var(--padding-10);
-      border: var(--default-border);
-      border-radius: var(--default-border-radius);
-      &__title {
-        display: block;
-        font-size: larger;
-        font-weight: bold;
-      }
-      &__list {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        & .--chosen {
+      gap: 10px;
+      & .--chosen {
         opacity: 0.5;
         background: #c8ebfb;
       }
-      }
     }
-
+  }
 </style>

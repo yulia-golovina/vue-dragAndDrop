@@ -23,5 +23,4 @@ const { moveToDone } = useTasksStore();
         background-color: var(--color-grey-dark);
     }
 }
-
 </style>

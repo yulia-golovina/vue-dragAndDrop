@@ -2,9 +2,17 @@
     <div class="main-wrapper">
         <AddTaskForm placeholder="Введите задачу"/>
         <div class="tasks-wrapper">
-            <TasksList :list="toDoTasksList" title="To do" group="tasks"/>
+            <TasksList
+                :list="toDoTasksList"
+                title="To do"
+                group="tasks"
+            />
             <ButtonMoveToDone />
-            <TasksList :list="doneTasksList" title="Done" group="tasks"/>
+            <TasksList
+                :list="doneTasksList"
+                title="Done"
+                group="tasks"
+            />
         </div>
     </div>
 </template>
@@ -17,7 +25,7 @@ import TasksList from './TasksList.vue';
 import ButtonMoveToDone from './ButtonMoveToDone.vue';
 
 const tasksStore = useTasksStore();
-const {toDoTasksList, doneTasksList} = storeToRefs(tasksStore);
+const { toDoTasksList, doneTasksList } = storeToRefs(tasksStore);
 </script>
   
 <style lang="scss" scoped>

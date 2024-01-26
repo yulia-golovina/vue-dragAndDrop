@@ -18,7 +18,6 @@
 <script setup lang="ts">
 import { useTasksStore } from '@/stores/tasks';
 import { type TaskType } from '../mock/mockData';
-import { ref } from 'vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 
@@ -39,7 +38,6 @@ const onLock = () => {
     &:hover, :focus {
         background: var(--color-grey);
     }
-
     &__content {
         display: flex;
         justify-content: space-between;
