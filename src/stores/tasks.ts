@@ -1,67 +1,74 @@
-import { computed, reactive, ref, watch, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import {listToDo, type TaskType} from '../mock/mockData';
 
 export const useTasksStore = defineStore('tasks', () => {
-  const tasksList = ref<TaskType[]>(listToDo);
-
-  const toDoTasksList = computed(() => tasksList.value.filter((item) => !item.isDone));
-  const doneTasksList = computed(() => tasksList.value.filter((item) => item.isDone));
+  const toDoTasksList = ref<TaskType[]>(listToDo.filter((item) => !item.isDone));
+  const doneTasksList = ref<TaskType[]>(listToDo.filter((item) => item.isDone));
 
   function addTask(taskText: string) {
-    tasksList.value.push({ 
+    toDoTasksList.value.push({ 
       id: Date.now(),
       text: taskText,
       isDone: false, 
     });
-    console.log(tasksList, toDoTasksList);
   }
 
   function lockTask(taskId: number) {
-    const currentTask = tasksList.value.find((task) => task.id === taskId);
-    currentTask!.isLocked = !currentTask!.isLocked;
+    toDoTasksList.value.forEach((task) => {
+      if(task.id === taskId) task.isLocked = !task.isLocked;
+    });
   }
 
   function moveToDone() {
-    tasksList.value.forEach((item) => {
-      if(!item.isLocked) item.isDone = true;
+    const lockedTasks: TaskType[] = [];
+    const toDone: TaskType[] = [];
+    toDoTasksList.value.forEach((item) => {
+      if(item.isLocked) {
+        lockedTasks.push(item);
+      } else {
+        item.isDone = true;
+        toDone.push(item);
+      }
     });
+    toDoTasksList.value = lockedTasks;
+    doneTasksList.value.push(...toDone);
   }
 
   return { toDoTasksList, doneTasksList, addTask, lockTask, moveToDone };
 })
 
+// import { computed, reactive, ref, watch, watchEffect } from 'vue';
 // import { defineStore } from 'pinia';
 // import {listToDo, type TaskType} from '../mock/mockData';
 
-// export const useTasksStore = defineStore('tasks', { 
-//   state: () => ({
-//     tasksList: listToDo,
-//   }),
+// export const useTasksStore = defineStore('tasks', () => {
+//   const tasksList = ref<TaskType[]>(listToDo);
+//   // const toDoTasksList = ref<TaskType[]>([]);
+//   // const doneTasksList = ref<TaskType[]>([]);
 
-//   getters: {
-//     toDoTasksList: (state) => state.tasksList.filter((item)=>!item.isDone),
-//     doneTasksList: (state) => state.tasksList.filter((item)=>item.isDone),
-//   },
+//   const toDoTasksList = computed(() => tasksList.value.filter((item) => !item.isDone));
+//   const doneTasksList = computed(() => tasksList.value.filter((item) => item.isDone));
 
-//   actions: {
-//     addTask(taskText: string) {
-//       this.tasksList.push({
-//         id: Date.now(),
-//         text: taskText,
-//         isDone: false,
-//       });
-//     },
+//   function addTask(taskText: string) {
+//     tasksList.value.push({ 
+//       id: Date.now(),
+//       text: taskText,
+//       isDone: false, 
+//     });
+//   }
 
-//     lockTask(taskId: number) {
-//       const currentTask = this.toDoTasksList.find((task) => task.id === taskId) as TaskType;
-//       currentTask!.isLocked = !currentTask!.isLocked;
-//     },
+//   function lockTask(taskId: number) {
+//     tasksList.value.forEach((task) => {
+//       if(task.id === taskId) task.isLocked = !task.isLocked;
+//     });
+//   }
 
-//     moveToDone() {
-//       this.toDoTasksList.forEach((item: TaskType) => {
-//         if(!item.isLocked) item.isDone = true;
-//       });
-//     }
-//   },
-// });
+//   function moveToDone() {
+//     tasksList.value.forEach((item) => {
+//       if(!item.isLocked) item.isDone = true;
+//     });
+//   }
+
+//   return { toDoTasksList, doneTasksList, addTask, lockTask, moveToDone };
+// })

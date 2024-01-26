@@ -1,12 +1,12 @@
 <template>
-    <Card :class="['task-card', {'--lockedTask': isLocked}]">
+    <Card :class="['task-card', {'--lockedTask': task.isLocked}]">
         <template #content>
             <div class="task-card__content">
                 <span>{{ task.text }}</span>
                 <Button 
                     v-if="!task.isDone"
                     :class="['task-card__content-button', {'--locked': task.isLocked}]"
-                    :icon="task.isLocked? 'pi pi-lock': 'pi pi-lock-open'"
+                    :icon="task.isLocked ? 'pi pi-lock': 'pi pi-lock-open'"
                     text
                     @click.stop="onLock"
                  />
@@ -26,11 +26,9 @@ const props = defineProps<{
     task: TaskType,
 }>();
 
-const isLocked = ref(false);
 const { lockTask } = useTasksStore();
 
 const onLock = () => {
-    isLocked.value = !isLocked.value;
     lockTask(props.task.id);
 }
 </script>

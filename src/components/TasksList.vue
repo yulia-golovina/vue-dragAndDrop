@@ -46,7 +46,7 @@ const onUpdate = () => {
 const onAdd: UseDraggableOptions<any>['onAdd'] = (event) => {
   const draggableTask = tasksList.value.find((item)=> item.id === Number(event.item.id));
   if(draggableTask) draggableTask.isDone = !draggableTask.isDone;
-  console.log('add', draggableTask, props.list);
+  console.log('add');
 }
 const remove = () => {
   console.log('remove');

@@ -41,7 +41,6 @@ const addNewTask = () => {
         addTask(newTask.value);
     } else {
         isVolid.value = false;
-        console.log('Task is not valid');
     }
 }
 </script>
